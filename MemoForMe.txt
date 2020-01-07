@@ -10,6 +10,8 @@ source bin/activate
 
 
 pip3 install tensorflow==1.14
+conda install tensorflow==1.14
+
 
 pip install -U scikit-learn
 

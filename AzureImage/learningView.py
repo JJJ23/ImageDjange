@@ -4,6 +4,7 @@ from . import ImgForm
 from .MLLib import img_face_dt
 HtmlName = 'Img/learning.html'
 
+
 class ImageLearningView(TemplateView):
     template_name = HtmlName
 

@@ -59,10 +59,10 @@ def scratchImage():
     print("===================================================================")
 
     # ディレクトリの作成
-    if not os.path.isdir(path_setting.SCRATCHIOUTPUT_IMAGE_DIR):
-        os.mkdir(path_setting.SCRATCHIOUTPUT_IMAGE_DIR)
+    if not os.path.isdir(path_setting.SCRATCH_OUTPUT_IMAGE_DIR):
+        os.mkdir(path_setting.SCRATCH_OUTPUT_IMAGE_DIR)
     # ディレクトリ内のファイル削除
-    path_setting.delete_dir(path_setting.SCRATCHIOUTPUT_IMAGE_DIR, False)
+    path_setting.delete_dir(path_setting.SCRATCH_OUTPUT_IMAGE_DIR, False)
 
     # ディレクトリの作成
     if not os.path.isdir(path_setting.TEST_IMAGE_PATH):
@@ -71,13 +71,13 @@ def scratchImage():
     path_setting.delete_dir(path_setting.TEST_IMAGE_PATH, False)
 
     # 対象画像のうち2割をテスト用として退避
-    image_files = glob.glob(path_setting.SCRATCHIMAGE_PATH_PATTERN)
+    image_files = glob.glob(path_setting.SCRATCH_IMAGE_PATH_PATTERN)
     random.shuffle(image_files)
     for i in range(len(image_files)//5):
         shutil.move(str(image_files[i]), path_setting.TEST_IMAGE_PATH)
 
     # 画像ファイルの読み込み
-    name_images = load_name_images(path_setting.SCRATCHIMAGE_PATH_PATTERN)
+    name_images = load_name_images(path_setting.SCRATCH_IMAGE_PATH_PATTERN)
 
     # 画像ごとの水増し
     for name_image in name_images:
@@ -87,7 +87,7 @@ def scratchImage():
         scratch_face_images = scratch_image(image)
         # 画像の保存
         for idx, image in enumerate(scratch_face_images):
-            output_path = os.path.join(path_setting.SCRATCHIOUTPUT_IMAGE_DIR, f"{filename}_{str(idx)}{extension}")
+            output_path = os.path.join(path_setting.SCRATCH_OUTPUT_IMAGE_DIR, f"{filename}_{str(idx)}{extension}")
             print(f"出力ファイル（絶対パス）:{output_path}")
             cv2.imwrite(output_path, image)
 

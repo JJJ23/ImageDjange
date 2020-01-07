@@ -79,7 +79,7 @@ def createmodel():
     epochs = 10
 
     # 学習用の画像ファイルの読み込み
-    num_classes, x_train, y_train = load_images(path_setting.SCRATCHIOUTPUT_IMAGE_DIR)
+    num_classes, x_train, y_train = load_images(path_setting.SCRATCH_OUTPUT_IMAGE_DIR)
 
     #plt.imshow(x_train[0])
     #plt.show()
