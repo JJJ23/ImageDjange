@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>Azure ImageTest</title>
-</head>
-<body>
-<div>
-Version Info:<br>
-Django:{{ djVersion }}<br>
-TensorFlow:{{ TfVersion }}
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding:1em;">
+    <div class="page-header">
+        <h1>Version Info　<small>Django:{{ djVersion }} , TensorFlow:{{ TfVersion }}</small></h1>
+    </div>
+    <div>
+      <a href="{% url 'learning' %}">学習開始</a><br>
+      <a href="{% url 'detect' %}">判定開始</a><br>
+    </div>
 </div>
-</body>
-</html>
+{% endblock %}
