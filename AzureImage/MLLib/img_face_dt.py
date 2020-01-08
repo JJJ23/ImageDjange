@@ -5,6 +5,8 @@ import cv2
 from .. import path_setting
 from PIL import Image
 import numpy as np
+import base64
+import io
 
 # Origin Image Pattern
 #IMAGE_PATH_PATTERN = "./origin_image/*"
@@ -42,7 +44,7 @@ def cv2detectfaces(image):
 
 
 def detect_image_face(imageName):
-
+    face_ImageList = []
     # アップロードされた画像ファイルをメモリ上でOpenCVのimageに格納
     image = np.asarray(Image.open(imageName))
 
@@ -52,10 +54,10 @@ def detect_image_face(imageName):
     faces = cv2detectfaces(image_rgb)
     if len(faces) == 0:
         print(f"顔認識失敗")
-        return 0
+        return face_ImageList
     # 1つ以上の顔を認識
     face_count = 1
-    facePathList = []
+
     for (xpos, ypos, width, height) in faces:
         face_image = image_rgb[ypos:ypos+height, xpos:xpos+width]
         if face_image.shape[0] > ImageSize:
@@ -66,10 +68,17 @@ def detect_image_face(imageName):
         output_path = os.path.join(path_setting.OUTPUT_IMAGE_DIR, f"{filename}_{face_count:03}{extension}")
         print(f"出力ファイル（絶対パス）:{output_path}")
         cv2.imwrite(output_path, face_image)
-        facePathList.append(output_path)
+
+        is_success, img_buffer = cv2.imencode(".png", face_image)
+        if is_success:
+            # 画像をインメモリのバイナリストリームに流し込む
+            io_buffer = io.BytesIO(img_buffer)
+            # インメモリのバイナリストリームからBASE64エンコードに変換
+            result_img = base64.b64encode(io_buffer.getvalue()).decode().replace("'", "")
+        face_ImageList.append(result_img)
         face_count = face_count + 1
 
-    return facePathList
+    return face_ImageList
 
 
 def createimgfile(imageNameList):
@@ -83,9 +92,9 @@ def createimgfile(imageNameList):
         os.mkdir(path_setting.OUTPUT_IMAGE_DIR)
     # ディレクトリ内のファイル削除
     path_setting.delete_dir(path_setting.OUTPUT_IMAGE_DIR, False)
-
-    face_cnt = 0
-    facelistpath = []
+    return detect_image_face(imageNameList)
+'''
+    face_list = []
     # 画像ごとの顔認識
  #   for imageName in imageNameList:
         # 画像ファイルの読み込み
@@ -93,7 +102,8 @@ def createimgfile(imageNameList):
 
    # file_path = os.path.join(path_setting.OUTPUT_IMAGE_DIR, imageName+f"{face_cnt}")
     #image = name_image[1]
-    facelistpath.append(detect_image_face(imageNameList))
+    face_list.append(detect_image_face(imageNameList))
 
-    print(f"Total face count {face_cnt}")
-    return facelistpath
+    #print(f"Total face count {face_list.len}")
+'''
+

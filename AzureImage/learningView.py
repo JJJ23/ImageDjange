@@ -32,6 +32,6 @@ class ImageLearningView(TemplateView):
        facelist = img_face_dt.createimgfile(image)
        # result = img_model_gen.createmodel()
        # 顔分類の結果を格納
-       self.params['facelist'] = facelist
+       self.params['faceList'] = facelist
        # ページの描画指示
        return render(req, HtmlName, self.params)
