@@ -31,13 +31,19 @@ class ImageLearningView(TemplateView):
         label = form.cleaned_data['imageTag']
         # 画像ファイルを指定して顔分類
         face_list = img_face_dt.createimgfile(image)
-
         # ページの描画指示
         response = {}
-        count = 0
+        count = 1
+        if len(face_list) == 0:
+            face_list.append("")
+
         for face_image in face_list:
-            key = f"タグ:{label} <br> {image.name} <br>  count:{count}"
+            if not face_image:
+                key = f"タグ:{label} <br> {image.name} <br>  not found face"
+            else:
+                key = f"タグ:{label} <br> {image.name} <br>  count:{count}"
+                count += 1
             response[key] = face_image
-            count += 1
+
         return JsonResponse(response, safe=False)
 
