@@ -19,7 +19,7 @@ function uploadImage() {
             var html = "<div class='image'><img src='data:image/png;base64," + json_response[item] + "'/> </div>"
             cell_image.innerHTML = html;
             var cell1 = row.insertCell(-1);
-            cell1.innerHTML = '抽出画像'+ item;
+            cell1.innerHTML = item;
         }
     })
     xhr.open("POST" , location.href);

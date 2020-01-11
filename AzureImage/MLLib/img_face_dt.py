@@ -81,7 +81,7 @@ def detect_image_face(imageName):
     return face_ImageList
 
 
-def createimgfile(imageNameList):
+def createimgfile(imageName):
     print("===================================================================")
     print("イメージ顔認識 OpenCV 利用版")
     print("指定した画像ファイルの正面顔を認識して抜き出し、サイズ変更"+ f"{ImageSize} x {ImageSize}" + "を行います。")
@@ -92,7 +92,7 @@ def createimgfile(imageNameList):
         os.mkdir(path_setting.OUTPUT_IMAGE_DIR)
     # ディレクトリ内のファイル削除
     path_setting.delete_dir(path_setting.OUTPUT_IMAGE_DIR, False)
-    return detect_image_face(imageNameList)
+    return detect_image_face(imageName)
 '''
     face_list = []
     # 画像ごとの顔認識
