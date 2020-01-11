@@ -35,5 +35,12 @@ class ImageLearningView(TemplateView):
        #self.params['faceList'] = facelist
      #  result1= json.dump(facelist)
        # ページの描画指示
-       result= JsonResponse(facelist[0], safe=False)
-       return result
+       responss = {}
+       count = 0
+       for face_image in facelist:
+           key = f"image{count}"
+           responss[key] =face_image
+           count += 1
+
+       return JsonResponse(responss, safe=False)
+
