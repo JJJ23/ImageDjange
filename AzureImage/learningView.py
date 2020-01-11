@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from . import ImgForm
 from .MLLib import img_face_dt
+from django.http.response import JsonResponse
 HtmlName = 'Img/learning.html'
-
 
 class ImageLearningView(TemplateView):
     template_name = HtmlName
@@ -32,6 +32,8 @@ class ImageLearningView(TemplateView):
        facelist = img_face_dt.createimgfile(image)
        # result = img_model_gen.createmodel()
        # 顔分類の結果を格納
-       self.params['faceList'] = facelist
+       #self.params['faceList'] = facelist
+     #  result1= json.dump(facelist)
        # ページの描画指示
-       return render(req, HtmlName, self.params)
+       result= JsonResponse(facelist[0], safe=False)
+       return result

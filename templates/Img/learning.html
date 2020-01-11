@@ -4,21 +4,19 @@
     <div class="page-header">
         <h1>AIで深層学習　<small>学習用画像を登録する</small></h1>
     </div>
-    <form method="POST" action="{% url 'learning' %}" enctype="multipart/form-data" class="form-horizontal">
+    <form id="image_upload" enctype="multipart/form-data" class="form-horizontal">
         {% csrf_token %}
         <div class='form-group'>
             <div class='col-sm-4'>{{form.as_p}}</div>
-            <div class='col-sm-8'><button type="submit" onclick="uploadImage()" class="btn btn-primary">学習する</button></div>
+            <div class='col-sm-8'><button type="button" onclick="uploadImage()" class="btn btn-primary">学習する</button></div>
         </div>
     </form>
     <p class="message">判定画像</p>
-    <table class="table">
+    <table id="image_result" class="table">
         <thead class="thead-inverse">
         <tr>
             <th>Face</th>
             <th>Posts</th>
-            <th>Topics</th>
-            <th>Last Post</th>
         </tr>
         </thead>
         <tbody>
@@ -31,8 +29,6 @@
                         {% endif %}
                     </div>
                 </td>
-                <td class="align-middle">0</td>
-                <td class="align-middle">0</td>
                 <td></td>
             </tr>
         {% endfor %}
