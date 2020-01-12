@@ -1,6 +1,8 @@
 function uploadImage() {
+
+    var element = document.getElementById("image_upload");
     // フォームデータを取得
-    var form_data = new FormData(document.getElementById("image_upload"));
+    var form_data = new FormData(element);
 
     // POSTでアップロード
     var xhr = new XMLHttpRequest();

@@ -11,11 +11,12 @@ class ImageLearningView(TemplateView):
 
     # コンストラクタ
     def __init__(self):
-        self.params = {'faceList': [],
-                       'form': ImgForm.ImageForm()}
+        self.params = {'form': ImgForm.ImageForm(),
+                       'setting_form': ImgForm.SettingForm()}
 
     # GETリクエスト（detect.htmlを初期表示）
     def get(self, req):
+        print(self.params.keys())
         return render(req, HtmlName, self.params)
 
     # POSTリクエスト（detect.htmlに結果を表示）
@@ -23,6 +24,7 @@ class ImageLearningView(TemplateView):
     def post(self, req):
         # POSTされたフォームデータを取得
         form = ImgForm.ImageForm(req.POST, req.FILES)
+        #setting_form = ImgForm.SettingForm(req.POST)
         # フォームデータのエラーチェック
         if not form.is_valid():
             raise ValueError('invalid form')
