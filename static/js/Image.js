@@ -1,3 +1,30 @@
+function updateSetting() {
+    var element = document.getElementById("setting_form");
+    // フォームデータを取得
+    var form_data = new FormData(element);
+
+    // POSTでアップロード
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.onload= (function() {
+        var result = document.getElementById("setting_result");
+        if (this.status != 200) {
+            result.innerHTML = ""
+            return
+        }
+        // IDからテーブルを取得
+        result.innerHTML = "成功"
+    })
+    xhr.fail = (function() {
+        // IDからテーブルを取得ß
+        var result = document.getElementById("setting_result");
+        result.innerHTML = "成功"
+    })
+    xhr.open("POST" , "/setting");
+    xhr.send(form_data);
+}
+
+
 function uploadImage() {
 
     var element = document.getElementById("image_upload");

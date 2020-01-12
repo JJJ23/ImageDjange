@@ -1,18 +1,33 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from . import ImgForm
+from .ImgForm import SettingForm
+from .ImgForm import ImageForm
 from .MLLib import img_face_dt
 from django.http.response import JsonResponse
+from .setting_models import Setting
 HtmlName = 'Img/learning.html'
 
 
 class ImageLearningView(TemplateView):
     template_name = HtmlName
+    setting_class = SettingForm
+    image_class = ImageForm
 
     # コンストラクタ
     def __init__(self):
-        self.params = {'form': ImgForm.ImageForm(),
-                       'setting_form': ImgForm.SettingForm()}
+        self.params = {'image_form': ImageForm(),
+                       'setting_form': SettingForm()}
+
+    def update_setting(request):
+        form = SettingForm(request.POST)
+        #form.save()
+        form.save()
+        response = {}
+        response['result'] = "OK"
+        return JsonResponse(response, safe=False)
+
+    def form_valid(self, form_class):
+        SettingForm.save()
 
     # GETリクエスト（detect.htmlを初期表示）
     def get(self, req):
@@ -20,10 +35,9 @@ class ImageLearningView(TemplateView):
         return render(req, HtmlName, self.params)
 
     # POSTリクエスト（detect.htmlに結果を表示）
-
     def post(self, req):
         # POSTされたフォームデータを取得
-        form = ImgForm.ImageForm(req.POST, req.FILES)
+        form = ImageForm(req.POST, req.FILES)
         #setting_form = ImgForm.SettingForm(req.POST)
         # フォームデータのエラーチェック
         if not form.is_valid():

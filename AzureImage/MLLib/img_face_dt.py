@@ -65,7 +65,7 @@ def detect_image_face(imageName):
         print(face_image.shape)
         # 保存
         filename, extension = os.path.splitext(imageName.name)
-        output_path = os.path.join(path_setting.OUTPUT_IMAGE_DIR, f"{filename}_{face_count:03}{extension}")
+        output_path = os.path.join(path_setting.TRAIN_IMAGE_DIR, f"{filename}_{face_count:03}{extension}")
         print(f"出力ファイル（絶対パス）:{output_path}")
         cv2.imwrite(output_path, face_image)
 
@@ -88,10 +88,10 @@ def createimgfile(imageName):
     print("===================================================================")
 
     # ディレクトリの作成
-    if not os.path.isdir(path_setting.OUTPUT_IMAGE_DIR):
-        os.mkdir(path_setting.OUTPUT_IMAGE_DIR)
+    if not os.path.isdir(path_setting.TRAIN_IMAGE_DIR):
+        os.mkdir(path_setting.TRAIN_IMAGE_DIR)
     # ディレクトリ内のファイル削除
-    path_setting.delete_dir(path_setting.OUTPUT_IMAGE_DIR, False)
+    path_setting.delete_dir(path_setting.TRAIN_IMAGE_DIR, False)
     return detect_image_face(imageName)
 '''
     face_list = []

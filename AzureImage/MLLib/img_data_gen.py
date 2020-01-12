@@ -71,13 +71,13 @@ def scratchImage():
     path_setting.delete_dir(path_setting.TEST_IMAGE_PATH, False)
 
     # 対象画像のうち2割をテスト用として退避
-    image_files = glob.glob(path_setting.SCRATCH_IMAGE_PATH_PATTERN)
+    image_files = glob.glob(path_setting.LEARN_IMAGE_PATH_PATTERN)
     random.shuffle(image_files)
     for i in range(len(image_files)//5):
         shutil.move(str(image_files[i]), path_setting.TEST_IMAGE_PATH)
 
     # 画像ファイルの読み込み
-    name_images = load_name_images(path_setting.SCRATCH_IMAGE_PATH_PATTERN)
+    name_images = load_name_images(path_setting.LEARN_IMAGE_PATH_PATTERN)
 
     # 画像ごとの水増し
     for name_image in name_images:
