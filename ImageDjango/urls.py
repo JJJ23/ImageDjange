@@ -24,5 +24,6 @@ urlpatterns = [
     path('', views.IndexPageView.as_view()),
     path('detect', ImgDetectViews.ImageDetectView.as_view(), name='detect'),
     path('learning', learningView.ImageLearningView.as_view(), name='learning'),
+    path('setting', learningView.ImageLearningView.update_setting, name='setting'),
     path('admin/', admin.site.urls),
 ]

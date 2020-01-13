@@ -21,3 +21,13 @@ pip install -U scikit-learn
   <a href="{% url 'hello:hello_template' %}">判定開始</a><br>
 </div>
 
+makemigrationsはマイグレーションファイルを作成する
+(venv)$ python mysite/manage.py makemigrations
+
+migrateはモデルをデータベースに反映させる
+(venv)$ python mysite/manage.py migrate
+
+View画面、Model一連の操作
+https://qiita.com/nn24nHi/items/910be32e0ee3eebc3018
+
+https://qiita.com/KeAt/items/55fdedc8cac7c6852043

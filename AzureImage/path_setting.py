@@ -10,14 +10,14 @@ MODEL_FILE_PATH = OUTPUT_MODEL_DIR + 'model.h5'
 OUTPUT_MODEL_PLOT_FILE = OUTPUT_MODEL_DIR + "model.png"
 
 CASCADE_FILE_PATH = os.path.join(BASE_DIR, 'haarcascade_frontalface_default.xml')
-OUTPUT_IMAGE_DIR = os.path.join(BASE_DIR, "face_image/")
+TRAIN_IMAGE_DIR = os.path.join(BASE_DIR, "face_image/")
 #IMAGE_PATH_PATTERN = os.path.join(BASE_DIR, "jin7/*")
 # Test Image Directory
 TEST_IMAGE_PATH = os.path.join(BASE_DIR, "test_image")
 # Face Image Directory
-SCRATCH_IMAGE_PATH_PATTERN = OUTPUT_IMAGE_DIR + "/*"
+LEARN_IMAGE_PATH_PATTERN = TRAIN_IMAGE_DIR + "/*"
 # Output Directory
-SCRATCH_OUTPUT_IMAGE_DIR = os.path.join(BASE_DIR, "face_scratch_image")
+#SCRATCH_OUTPUT_IMAGE_DIR = os.path.join(BASE_DIR, "face_scratch_image")
 
 
 def delete_dir(dir_path, is_delete_top_dir=True):

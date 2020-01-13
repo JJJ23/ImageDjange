@@ -1,5 +1,5 @@
 from django import forms
-
+from . import setting_models
 
 class ImageForm(forms.Form):
 
@@ -14,11 +14,13 @@ class ImageForm(forms.Form):
     #modelName = forms.FilePathField(label='モデル')
 
 
-class SettingForm(forms.Form):
-    setting = forms.CharField(
-        label='設定', max_length=50,
-        required=False, help_text='※任意'
-    )
+class SettingForm(forms.ModelForm):
+    # ModelFormクラスを継承。データベースに保存するには、Metaクラスが必要
+    class Meta:
+        # models.pyの使用したいクラス(Model)と、Fieldを記載
+        model = setting_models.Setting
+        fields = ('model_filePath', 'cascade_filePath', 'train_filePath')
+
 """class FileForm(forms.Form):
 
     image = forms.ImageField(
