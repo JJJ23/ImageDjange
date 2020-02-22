@@ -44,7 +44,8 @@ def cv2detectfaces(image):
 
 
 def encode_png_image(image):
-    is_success, img_buffer = cv2.imencode(".png", image)
+    tmpimg = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    is_success, img_buffer = cv2.imencode(".png", tmpimg)
     if is_success:
         # 画像をインメモリのバイナリストリームに流し込む
         io_buffer = io.BytesIO(img_buffer)
@@ -52,16 +53,42 @@ def encode_png_image(image):
         result_img = base64.b64encode(io_buffer.getvalue()).decode().replace("'", "")
     return result_img
 
+# 回転角を指定
+def trance_image(img,angle,scale = 1.0):
+    # 高さを定義
+    height = img.shape[0]
+    # 幅を定義
+    width = img.shape[1]
+    # 回転の中心を指定
+    center = (int(width / 2), int(height / 2))
+    # getRotationMatrix2D関数を使用
+    trans = cv2.getRotationMatrix2D(center, angle, scale)
+    # アフィン変換
+    return cv2.warpAffine(img, trans, (width, height))
 
 def detect_image_face(image_rgb,file_name):
-    face_ImageList = []
+    face_list = []
+    height ,width,__ = image_rgb.shape
+    org_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+  #  orgHeight, orgWidth = org_bgr.shape[:2]
+ #   radio_h = orgHeight * 1.0 / orgWidth
+ #   x = ImageSize * 8
+#  y = x * radio_h
+   # cv2.imwrite("test.png",org_bgr)
+    org_bgr.transpose(1, 0, 2)[:, ::-1]
+    #画像をImageSizeの４倍にする
+    image_bgr = cv2.resize(org_bgr, (int( width/4), int(height / 4)))
 
-    image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+    org_png_image = encode_png_image(image_bgr)
     # 顔認識
     faces = cv2detectfaces(image_bgr)
     if len(faces) == 0:
-        print(f"顔認識失敗")
-        return encode_png_image(image_bgr), face_ImageList
+        print(f"顔認識失敗 90回転")
+        image_bgr = cv2.rotate(image_bgr, cv2.ROTATE_90_CLOCKWISE) #trance_image(image_bgr,90)
+        faces = cv2detectfaces(image_bgr)
+
+        if len(faces) == 0 :
+            return org_png_image, face_list
     # 1つ以上の顔を認識
     face_count = 1
 
@@ -77,9 +104,9 @@ def detect_image_face(image_rgb,file_name):
         cv2.imwrite(output_path, face_image)
         # BASE64にエンコード
         result_img = encode_png_image(face_image)
-        face_ImageList.append(result_img)
+        face_list.append(result_img)
         face_count = face_count + 1
-    return encode_png_image(image_bgr), face_ImageList
+    return org_png_image, face_list
 
 
 def createimgfile(image_filed):
@@ -93,6 +120,7 @@ def createimgfile(image_filed):
         os.mkdir(path_setting.TRAIN_IMAGE_DIR)
     # ディレクトリ内のファイル削除
     path_setting.delete_dir(path_setting.TRAIN_IMAGE_DIR, False)
+
     return detect_image_face(np.array(Image.open(image_filed)),image_filed.name)
 
 '''
